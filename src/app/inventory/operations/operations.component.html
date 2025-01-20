@@ -1,0 +1,82 @@
+<div class="container mt-5">
+    <h2>Control de Entrada y Salida de Productos</h2>
+    <form [formGroup]="operationsForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+            <label for="product" class="form-label">Seleccionar Producto</label>
+            <select id="product" formControlName="product" class="form-control">
+                <option value="">Seleccione un producto</option>
+                <option *ngFor="let product of productList" [value]="product.id">
+                    {{ product.name }}
+                </option>
+            </select>
+            <div *ngIf="
+            operationsForm.get('product')?.invalid &&
+            operationsForm.get('product')?.touched
+          " class="text-danger">
+                Seleccione un producto
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Tipo de Operación</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" id="entrada" formControlName="operationType"
+                    value="entrada" />
+                <label class="form-check-label" for="entrada">Entrada</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" id="salida" formControlName="operationType"
+                    value="salida" />
+                <label class="form-check-label" for="salida">Salida</label>
+            </div>
+            <div *ngIf="
+            operationsForm.get('operationType')?.invalid &&
+            operationsForm.get('operationType')?.touched
+          " class="text-danger">
+                Seleccione el tipo de operación
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Cantidad</label>
+            <input type="number" id="quantity" formControlName="quantity" class="form-control" [min]="1" />
+            <div *ngIf="
+            operationsForm.get('quantity')?.invalid &&
+            operationsForm.get('quantity')?.touched
+          " class="text-danger">
+                La cantidad debe ser un valor positivo
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="operationDate" class="form-label">Fecha de la operación</label>
+            <input type="date" id="operationDate" formControlName="operationDate" class="form-control" />
+            <div *ngIf="
+            operationsForm.get('operationDate')?.invalid &&
+            operationsForm.get('operationDate')?.touched
+          " class="text-danger">
+                Fecha de la operación es obligatoria
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="operationsForm.invalid">
+            Registrar Operación
+        </button>
+    </form>
+
+    <h3 class="mt-5">Productos en Inventario</h3>
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Stock Actual</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of productList">
+                <td>{{ product.name }}</td>
+                <td>{{ product.stock }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

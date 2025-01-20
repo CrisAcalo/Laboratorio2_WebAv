@@ -1,0 +1,105 @@
+<div class="container mt-5">
+    <h2>Registro de Zapatos por Variantes</h2>
+    <form [formGroup]="variantsForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="name" class="form-label">Nombre del Producto</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          class="form-control"
+        />
+        <div
+          *ngIf="
+            variantsForm.get('name')?.invalid &&
+            variantsForm.get('name')?.touched
+          "
+          class="text-danger"
+        >
+          Nombre del producto es obligatorio
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label class="form-label">Variantes de Color</label>
+        <div *ngFor="let color of colors">
+          <input
+            type="checkbox"
+            [value]="color"
+            (change)="onColorChange($event)"
+          />
+          <label>{{ color }}</label>
+        </div>
+        <div
+          *ngIf="
+            variantsForm.get('selectedColors')?.invalid &&
+            variantsForm.get('selectedColors')?.touched
+          "
+          class="text-danger"
+        >
+          Debe seleccionar al menos un color
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="size" class="form-label">Talla</label>
+        <select id="size" formControlName="selectedSize" class="form-control">
+          <option value="">Seleccione una talla</option>
+          <option *ngFor="let size of sizes" [value]="size">{{ size }}</option>
+        </select>
+        <div
+          *ngIf="
+            variantsForm.get('selectedSize')?.invalid &&
+            variantsForm.get('selectedSize')?.touched
+          "
+          class="text-danger"
+        >
+          Debe seleccionar una talla
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="price" class="form-label">Precio</label>
+        <input
+          type="number"
+          id="price"
+          formControlName="price"
+          class="form-control"
+        />
+        <div
+          *ngIf="
+            variantsForm.get('price')?.invalid &&
+            variantsForm.get('price')?.touched
+          "
+          class="text-danger"
+        >
+          Precio debe ser mayor a 0
+        </div>
+      </div>
+  
+      <button type="submit" class="btn btn-primary" [disabled]="variantsForm.invalid">
+        Registrar Zapato
+      </button>
+    </form>
+  
+    <h3 class="mt-5">Zapatos Registrados</h3>
+    <table class="table table-striped mt-3" *ngIf="products.length > 0">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Colores</th>
+          <th>Talla</th>
+          <th>Precio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td>{{ product.name }}</td>
+          <td>{{ product.selectedColors.join(', ') }}</td>
+          <td>{{ product.selectedSize }}</td>
+          <td>{{ product.price }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

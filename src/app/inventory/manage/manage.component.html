@@ -1,0 +1,71 @@
+<div class="container mt-5">
+    <h2>Gestión de Inventario</h2>
+    <form [formGroup]="inventoryForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+            <label for="name" class="form-label">Nombre del Producto</label>
+            <input type="text" id="name" formControlName="name" class="form-control" />
+            <div *ngIf="inventoryForm.get('name')?.invalid && inventoryForm.get('name')?.touched" class="text-danger">
+                Nombre es requerido
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="colorVariants" class="form-label">Variantes de Color</label>
+            <input type="text" id="colorVariants" formControlName="colorVariants" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label for="sizeVariants" class="form-label">Variantes de Tallas</label>
+            <input type="text" id="sizeVariants" formControlName="sizeVariants" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label for="brand" class="form-label">Marca</label>
+            <input type="text" id="brand" formControlName="brand" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label for="unitPrice" class="form-label">Precio Unitario</label>
+            <input type="number" id="unitPrice" formControlName="unitPrice" class="form-control" />
+            <div *ngIf="inventoryForm.get('unitPrice')?.invalid && inventoryForm.get('unitPrice')?.touched"
+                class="text-danger">
+                Precio debe ser mayor a 0
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="initialStock" class="form-label">Stock Inicial</label>
+            <input type="number" id="initialStock" formControlName="initialStock" class="form-control" />
+            <div *ngIf="inventoryForm.get('initialStock')?.invalid && inventoryForm.get('initialStock')?.touched"
+                class="text-danger">
+                Stock inicial debe ser 0 o mayor
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="inventoryForm.invalid">Registrar Producto</button>
+    </form>
+
+    <h3 class="mt-5">Productos Registrados</h3>
+    <table class="table table-striped mt-3" *ngIf="products.length > 0">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Colores</th>
+                <th>Tallas</th>
+                <th>Marca</th>
+                <th>Precio</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of products">
+                <td>{{ product.name }}</td>
+                <td>{{ product.colorVariants }}</td>
+                <td>{{ product.sizeVariants }}</td>
+                <td>{{ product.brand }}</td>
+                <td>{{ product.unitPrice }}</td>
+                <td>{{ product.initialStock }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
